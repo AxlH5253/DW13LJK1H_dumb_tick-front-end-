@@ -1,0 +1,25 @@
+.header-body-top{
+    background-color:#041426;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items:center;
+    justify-content:flex-start;
+}
+
+.header-body-top-login-body{
+    width:60%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
+.header-body-top-login-button{
+    border: none;
+    outline: none;
+    height: 30px;
+    width:70px;
+    border-radius: 5px;
+    cursor: pointer;    
+
+}

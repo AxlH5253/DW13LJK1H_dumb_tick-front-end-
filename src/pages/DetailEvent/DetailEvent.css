@@ -1,0 +1,115 @@
+.detail-event{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-event-body-top{
+    width:100%;
+    height:800px;
+    display: flex;
+    justify-content: center; 
+    align-items:center;
+    flex-direction: column;
+}
+
+.detail-event-body-top-img{
+    width: 55%;
+    height: 400px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-top: 1px solid grey;
+}
+
+.detail-event-body-top-img-image{
+    width: 100%;
+    height: 100%;
+}
+
+.detail-event-body-top-child-st{
+    width: 55%;
+    height: 100px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
+.detail-event-body-top-child-nd{
+    display: flex;
+    width: 55%;
+    height: 200px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.detail-event-body-bottom{
+    width: 100%;
+    height: 450px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+}
+
+.detail-event-body-bottom-child-st{
+    display: flex;
+    width: 55%;
+    height: 100%;
+}
+
+.detail-event-body-bottom-child-nd{
+    width: 55%;
+    height: 400px;
+    border-left: 1px solid grey;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.detail-event-body-bottom-child-rd{
+    width: 55%;
+    height: 400px;
+    border-right: 1px solid grey;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.detail-event-body-bottom-child-st-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+}
+
+.detail-event-body-bottom-child-st-box-child-st{
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 40px;
+    text-align: justify;
+}
+
+.detail-event-body-bottom-child-st-box-child-nd{
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 40px;
+}
+
+.detail-event-body-bottom-child-st-box-2-child-st{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 40px;
+    height: 40px;
+}
+
+.detail-event-body-bottom-child-st-box-2-child-st-time{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.detail-event-time-title{
+    margin-bottom: 15px;
+    margin-top:30px;
+}
+
