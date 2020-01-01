@@ -50,10 +50,104 @@
     outline:none;
 }
 
+.register{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .modal-login-notice{
     width: 500px;
     color: red;
     left: 55ex;
     justify-content: center;
     position: absolute;
+}
+
+.register-page-parrent{
+    width: 90%;
+    height: 400px;
+    display: flex;
+    border: 1px solid grey;
+}
+
+.register-page-child-st{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-page-box{
+    display:flex;
+    flex-direction: column;
+    border: 1px solid grey;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    margin:5px;
+    padding:10px
+}
+
+.register-page-box-input{
+    outline: none;
+    width: 300px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 13px;
+    border: 1px solid black;
+}
+
+.register-page-botom-body{
+    width: 50%;
+    height: 100%;
+}
+
+.register-page-botom-body-head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    padding: 10px;
+}
+
+.register-page-botom-body-img-body{
+    height: 200px;
+    width: 35%;
+    border-radius: 100%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.register-page-botom-body-img{
+    width: 100;
+    border-radius: 100%;
+    height: 100%;
+}
+.register-page-botom-body-btn{
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.register-page-botom-btn{
+    width: 130px;
+    height: 40px; 
+    color: white;
+    border: none;
+    background: #041426;
+    border-radius: 7px;
+    margin-right: 20px;
+    outline: none;
+    cursor: pointer;
 }

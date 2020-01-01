@@ -6,7 +6,9 @@ import {GET_CATEGORIES,
         GET_EVENT_DETAIL,
         SHOW_MODAL,
         HIDE_MODAL,
-        LOGIN
+        LOGIN,
+        SHOW_MODAL_REGISTER,
+        HIDE_MODAL_REGISTER
     } from '../config/constant'
 
 import axios from 'axios';
@@ -102,6 +104,22 @@ export const showModal = ()=>{
 export const hideModal = ()=>{
     return{
         type: HIDE_MODAL,
+        payload: null
+    }
+
+}
+
+export const showModalRegister = ()=>{
+    return{
+        type: SHOW_MODAL_REGISTER,
+        payload: null
+    }
+
+}
+
+export const hideModalRegister = ()=>{
+    return{
+        type: HIDE_MODAL_REGISTER,
         payload: null
     }
 

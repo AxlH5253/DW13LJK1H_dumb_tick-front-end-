@@ -8,6 +8,7 @@ import {getEventByCategory} from '../_reducers/getEventByCategory';
 import {getEventDetail} from '../_reducers/geteventdetail';
 import {modal} from '../_reducers/showModal';
 import {loginUser} from '../_reducers/login';
+import {modalRegister} from '../_reducers/showmodalreg';
 
 const rootReducers = combineReducers({
     getEvent,
@@ -17,7 +18,8 @@ const rootReducers = combineReducers({
     getEventByCategory,
     getEventDetail,
     modal,
-    loginUser
+    loginUser,
+    modalRegister
 });
 
 export const store = createStore(rootReducers,

@@ -2,10 +2,11 @@ import React,{Component} from 'react';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import {hideModal,login,showModal} from '../_actions/home';
+import {hideModal} from '../_actions/home';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import './component.css'
 
 class Login extends Component{
@@ -17,19 +18,6 @@ class Login extends Component{
     hidepass: 'password',
     noticeMesage: ''
    }
- }
-
- componentWillReceiveProps(){
-  if(this.props.loginUser.data.length>0){
-    if(this.props.loginUser.data[0].token){
-      alert(this.props.loginUser.data[0].token)
-    }
-    else{
-      this.setState({
-        noticeMesage:'Invalid username or password'
-      })
-    }
-  }
  }
 
  handleLoginBtn = event =>{
@@ -45,8 +33,21 @@ class Login extends Component{
       username: document.getElementById('username').value ,
       password: document.getElementById('password').value 
     }
-    this.props.login(user)
-
+    axios.post('http://localhost:5000/api/v1/login',user)
+    .then(res=>{
+      if(res.data[0]['token']){
+        localStorage.setItem('token', res.data[0]['token']);
+        window.location = '/';
+      }else if(res.data[0]['message']){
+        this.setState({
+          noticeMesage:'Invalid username or password'
+        })
+      }else{
+        this.setState({
+          noticeMesage:'Cannot connect to server'
+        })
+      }
+    })
   } 
  }
 
@@ -58,23 +59,6 @@ class Login extends Component{
  }
   
  render(){
-
-  const { data, isLoading, isPost, error } = this.props.loginUser;
-  if (isLoading && !isPost) {
-    return (
-      <div>
-        <h1>Loading, please wait!</h1>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div>
-        <h1>There's an unknown error occured</h1>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -133,15 +117,12 @@ class Login extends Component{
 const mapStateToProps = state => {
   return {
     modal: state.modal,
-    loginUser: state.loginUser
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return { 
     hideModal: () => dispatch(hideModal()),
-    showModal: () => dispatch(showModal()),
-    login : (user) => dispatch(login(user))
   };
 };
 

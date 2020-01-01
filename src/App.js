@@ -13,6 +13,7 @@ import Event from './pages/Event/Event';
 import UpCommingEvent  from './pages/UpCommingEvent/UpCommingEvent';
 import EventsByTitle from './pages/EventsByTitle/EventsByTitle';
 import DetailEvent from './pages/DetailEvent/DetailEvent';
+import Register from './components/Register';
 
 class App extends Component{
   render(){
@@ -20,6 +21,10 @@ class App extends Component{
       <div>
       <Router>
         <Switch>
+          <Route path="/register">
+            <Header/>
+            <Register/>
+          </Route>
           <Route path="/detailEvent/:id">
             <Header/>
             <DetailEvent/>

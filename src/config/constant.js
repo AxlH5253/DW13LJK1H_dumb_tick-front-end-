@@ -7,3 +7,5 @@ export const GET_EVENT_DETAIL = "GET_EVENT_DETAIL";
 export const SHOW_MODAL = "SHOW_MODAL";
 export const HIDE_MODAL = "HIDE_MODAL";
 export const LOGIN = "LOGIN"
+export const SHOW_MODAL_REGISTER = "SHOW_MODAL_REGISTER";
+export const HIDE_MODAL_REGISTER = "HIDE_MODAL_REGISTER";
