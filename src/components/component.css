@@ -1,0 +1,59 @@
+.modal-title{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-close{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.modal-close-btn{
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.modal-login{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.modal-input{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 400px;
+    margin-top: 40px;
+    font-size: 30px;
+}
+
+.modal-input:focus{
+    outline:none;
+}
+
+.modal-login-btn{
+    background: #041426;
+    border: none;
+    height: 55px;
+    width: 150px;
+    font-size: 30px;
+    color: white;
+    border-radius: 20px;
+    outline:none;
+}
+
+.modal-login-notice{
+    width: 500px;
+    color: red;
+    left: 55ex;
+    justify-content: center;
+    position: absolute;
+}

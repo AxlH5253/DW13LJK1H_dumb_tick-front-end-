@@ -20,7 +20,7 @@ class App extends Component{
       <div>
       <Router>
         <Switch>
-        <Route path="/detailEvent/:id">
+          <Route path="/detailEvent/:id">
             <Header/>
             <DetailEvent/>
           </Route>

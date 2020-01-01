@@ -28,7 +28,7 @@ class Header extends Component{
       }
     }
     render(){
-         const { data, isLoading, isPost, error } = this.props.home;
+         const { data, isLoading, error } = this.props.home;
 
         if (isLoading) {
             return (
@@ -61,7 +61,7 @@ class Header extends Component{
             <div className='category-body-bottom'>
               { data.map((item,index)=>
              
-              <div key={index} className='category-body-bottom-content' onClick={()=>(window.location=`detailCategory/${item.id}`)}>
+              <div key={index} className='category-body-bottom-content' onClick={()=>(window.location=`/detailCategory/${item.id}`)}>
                 {item.name}
               </div>
               )}    

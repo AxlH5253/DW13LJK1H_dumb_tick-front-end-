@@ -3,7 +3,11 @@ import {GET_CATEGORIES,
         GET_EVENT_UP_COMMING,
         GET_EVENT_TODAY,
         GET_EVENT_BY_CATEGORY,
-        GET_EVENT_DETAIL} from '../config/constant'
+        GET_EVENT_DETAIL,
+        SHOW_MODAL,
+        HIDE_MODAL,
+        LOGIN
+    } from '../config/constant'
 
 import axios from 'axios';
 
@@ -73,3 +77,32 @@ export const getDetailEvt = evtId =>{
         })
     };
 };
+
+
+export const login =  user => {
+    return{
+        type: LOGIN, 
+        payload: axios(
+            {
+                method:'POST',
+                url:`http://localhost:5000/api/v1/login`,
+                data: user
+        })
+    };
+};
+
+export const showModal = ()=>{
+    return{
+        type: SHOW_MODAL,
+        payload: null
+    }
+
+}
+
+export const hideModal = ()=>{
+    return{
+        type: HIDE_MODAL,
+        payload: null
+    }
+
+}

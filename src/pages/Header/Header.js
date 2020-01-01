@@ -1,16 +1,16 @@
 import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import { connect } from "react-redux";
-import {getCategories} from '../../_actions/home';
+import {getCategories,showModal} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
-import SearchIcon from '@material-ui/icons/Search';
+import Login from '../../components/Login';
 import './Header.css'
 
 class Header extends Component{
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-          queryValue: ''
+          queryValue: '',
         }
     }
 
@@ -28,7 +28,8 @@ class Header extends Component{
       }
     }
     render(){
-         const { data, isLoading, isPost, error } = this.props.home;
+        
+         const { isLoading,error } = this.props.home;
 
         if (isLoading) {
             return (
@@ -48,13 +49,14 @@ class Header extends Component{
         return(
             <>
             <div className='header-body-top'>
-                
+                  <Login/>
                   <div style={{width:'30%',display:'flex',justifyContent:'center',color:'white'}}>
                   <Link style={{color:'white',textDecoration:'none'}} to='/'><h1>Dumb-Tick</h1> </Link>
                   </div>
               
                 <div className='header-body-top-login-body'>
-                  <button className='header-body-top-login-button'>Login</button>
+                  <button className='header-body-top-login-button'>Register</button>
+                  <button className='header-body-top-login-button' onClick={this.props.showModal}>Login</button>
                 </div>
             </div>
             </>
@@ -70,7 +72,8 @@ const mapStateToProps = state => {
 
   const mapDispatchToProps = dispatch => {
     return { 
-      getCategories: () => dispatch(getCategories())
+      getCategories: () => dispatch(getCategories()),
+      showModal: () => dispatch(showModal())
     };
   };
 
