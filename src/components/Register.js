@@ -146,7 +146,7 @@ handleOnChangeInput = () =>{
                   </div>
               </div>
               <div className='register-page-botom-body'>
-                  <div className='register-page-botom-body-head'>
+                  <div className='register-page-botom-body-head' style={{height:'165px',paddingBottom:'30px'}}>
                       <div className='register-page-botom-body-img-body'>
                           <img className='register-page-botom-body-img' src={this.state.imgUrl}/>
                       </div>
@@ -155,12 +155,12 @@ handleOnChangeInput = () =>{
                   <div style={{display:'flex',justifyContent:'center'}}>
                     <input id='img'
                     className='register-page-box-input' 
-                    style={{border:'1px solid black'}}
+                    style={{border:'1px solid black',marginBottom:'10px'}}
                     onChange={this.handleOnChangeImageUrl} 
                     placeholder='Paste image link in here'/>
                   </div>
-                  <div className='register-page-botom-body-btn'>
-                      <button className='register-page-botom-btn' onClick={this.handleOnClickBtnRegister}>Create Account</button>
+                  <div className='register-page-botom-body-btn' style={{height:'150px',width:'100%'}}>
+                      <button style={{fontSize:'20px', width:'30%'}} className='register-page-botom-btn' onClick={this.handleOnClickBtnRegister}>Create Account</button>
                   </div>
               </div>
           </div>

@@ -9,15 +9,50 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import PersonIcon from '@material-ui/icons/Person';
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import axios from 'axios';
+import {showModal} from '../../_actions/home';
 
 class DetailEvent extends Component{
     constructor(props) {
         super(props);
+        this.state = {
+            countTicket : 1,
+            totalPrice :0,
+        }
 
     }
 
     componentDidMount() {
         this.props.getDetailEvt(this.props.match.params.id);
+    }
+
+    handleSetCountTicket = (value,price) =>{
+        if(value === 'ADD'){
+            this.setState({countTicket : this.state.countTicket+1,totalPrice:price+(price/this.state.countTicket)})
+        }else if (value === 'SUB' && this.state.countTicket >1 ){
+            this.setState({countTicket : this.state.countTicket-1,totalPrice:price-(price/this.state.countTicket)})
+        }
+    }
+
+    handleBuyTicket = () =>{
+        const dataOrder ={
+            eventId : this.props.match.params.id,
+            quantity: this.state.countTicket,
+            totalPrice: this.state.totalPrice
+        }
+        if(localStorage.getItem('token')){
+            axios.post('http://localhost:5000/api/v1/order',dataOrder)
+            .then(res=>{
+              if(res.data[0]['id']){
+                window.location = '/myticket';
+              }else{
+                console.log(res.data)
+              }
+            })
+        }else{
+            this.props.showModal()
+        }   
     }
 
     render(){
@@ -53,11 +88,27 @@ class DetailEvent extends Component{
                                         <h2>{item.title}</h2>
                                     </div>
                                     <div className='detail-event-body-bottom-child-st-box-child-nd' >
-                                        <h4>Rp.{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h4>
+                                        <h4>Rp.{(item.price*this.state.countTicket).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h4>
                                     </div>
                                 </div>
                                 <div className='detail-event-body-bottom-child-st-box-2-child-st'>
                                     <h3>{item.category.name}</h3>
+                                    <div style={{display:'flex',justifyContent:'flex-end',paddingRight:'40px'}}>
+                                        
+                                        <button className='sub-ticket-btn'
+                                        onClick={()=>this.handleSetCountTicket('SUB',item.price*this.state.countTicket)}>
+                                        -
+                                       </button>
+                                        
+                                        <div>{this.state.countTicket}</div>
+                                        
+                                        <button className='add-ticket-btn'
+                                        onClick={()=>this.handleSetCountTicket('ADD',item.price*this.state.countTicket)}>
+                                         +
+                                        </button>
+                                       
+                                        <button className='buy-ticket-btn' onClick={this.handleBuyTicket}>Buy</button>
+                                    </div>
                                 </div>
                             </div>
                             <div className='detail-event-body-top-child-nd'>
@@ -115,7 +166,7 @@ class DetailEvent extends Component{
                                         <h2>Location</h2>
                                     </div>
                                     <div className='detail-event-body-bottom-child-st-box-child-st'>
-                                        <p>{item.address}</p>
+                                       <div style={{display:'flex', alignItems:'center'}}><LocationOnIcon/>&nbsp;<p>{item.address}</p></div>
                                     </div>
                                     <div style={{marginLeft:'40px',height:'250px'}}>
                                         <iframe style={{width:'90%',height:'100%',border:'2px solid black'}} src={item.urlMaps}></iframe>
@@ -140,7 +191,8 @@ const mapStateToProps = state => {
 
   const mapDispatchToProps = dispatch => {
     return { 
-        getDetailEvt:(evtId) => dispatch(getDetailEvt(evtId))
+        getDetailEvt:(evtId) => dispatch(getDetailEvt(evtId)),
+        showModal: () => dispatch(showModal())
     };
   };
 

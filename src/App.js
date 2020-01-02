@@ -15,6 +15,7 @@ import EventsByTitle from './pages/EventsByTitle/EventsByTitle';
 import DetailEvent from './pages/DetailEvent/DetailEvent';
 import Register from './components/Register';
 import AddEvent from './pages/AddEvent/AddEvent';
+import MyTicket from './pages/MyTicket/MyTicket';
 
 class App extends Component{
   render(){
@@ -22,7 +23,11 @@ class App extends Component{
       <div>
       <Router>
         <Switch>
-        <Route path="/addevent">
+          <Route path="/myticket">
+            <Header/>
+            <MyTicket/>
+          </Route>
+          <Route path="/addevent">
             <Header/>
             <AddEvent/>
           </Route>

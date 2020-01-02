@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect } from "react-redux";
-import {showModal,showModalRegister} from '../../_actions/home';
+import {showModal} from '../../_actions/home';
 import Avatar from '@material-ui/core/Avatar';
 
 import Login from '../../components/Login';
@@ -149,7 +149,6 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return { 
       showModal: () => dispatch(showModal()),
-      showModalRegister: () => dispatch(showModalRegister())
     };
   };
 
