@@ -14,6 +14,7 @@ import UpCommingEvent  from './pages/UpCommingEvent/UpCommingEvent';
 import EventsByTitle from './pages/EventsByTitle/EventsByTitle';
 import DetailEvent from './pages/DetailEvent/DetailEvent';
 import Register from './components/Register';
+import AddEvent from './pages/AddEvent/AddEvent';
 
 class App extends Component{
   render(){
@@ -21,6 +22,10 @@ class App extends Component{
       <div>
       <Router>
         <Switch>
+        <Route path="/addevent">
+            <Header/>
+            <AddEvent/>
+          </Route>
           <Route path="/register">
             <Header/>
             <Register/>

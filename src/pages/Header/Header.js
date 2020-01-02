@@ -66,7 +66,7 @@ class Header extends Component{
                   <button className='header-body-top-login-button' onClick={this.props.showModal} style={{display:this.state.showBtnLogin}}>Login</button>
                   <div>
 
-                  <div onClick={this.handleDropDownMenu} style={{color:'white',display:'flex',alignItems:'center'}}>
+                  <div onClick={this.handleDropDownMenu} style={{color:'white',display:'flex',alignItems:'center',cursor:'pointer'}}>
                     <h3 style={{marginRight:'10px'}}>{this.state.name}</h3>
                     <Avatar 
                       style={{display:this.state.showAvatar}}
@@ -127,7 +127,7 @@ class MenuProfil extends Component{
           <div className='header-dropdown-profil-content-ul'>
             <div className='header-dropdown-profil-content-li'><ConfirmationNumberIcon style={{marginRight:'20px'}}/>My Ticket</div>
             <div className='header-dropdown-profil-content-li'><PaymentIcon style={{marginRight:'20px'}}/> Payment</div>
-            <div className='header-dropdown-profil-content-li'><AddCircleIcon style={{marginRight:'20px'}}/> Add Event</div>
+            <Link to='/addevent' className='header-dropdown-profil-content-li'><AddCircleIcon style={{marginRight:'20px'}}/> Add Event</Link>
           </div>
 
           <div className='header-dropdown-profil-content-ul'>

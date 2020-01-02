@@ -59,9 +59,33 @@ handleOnClickBtnRegister = () =>{
       if(document.getElementById('phone').value === ''){
         this.setState({borderPhone:'1px solid red'})
       }
-    }else if(document.getElementById('pass')!== document.getElementById('cpass') ){
+    }else if(document.getElementById('pass').value!== document.getElementById('cpass').value ){
       this.setState({errorMessage:'The password confirmation must be the same as the password'})
       this.setState({borderPassword:'1px solid red'})
+    }else{
+      const dataUser ={
+        name : document.getElementById('username').value,
+        username : document.getElementById('username').value,
+        password : document.getElementById('pass').value,
+        email : document.getElementById('email').value,
+        phoneNumber: document.getElementById('phone').value,
+        img : this.state.imgUrl
+      }
+
+      console.log(dataUser)
+
+      axios.post('http://localhost:5000/api/v1/register',dataUser)
+      .then(res=>{
+        if(res.data[0]['token']){
+          localStorage.setItem('token', res.data[0]['token']);
+          window.location = '/';
+        }else if(res.data[0].message){
+          this.setState({errorMessage: res.data[0].message})
+        }else{
+          console.log(res.data)
+          this.setState({errorMessage:'Cannot connect to server'})
+        }
+      })
     }
 }
 
@@ -132,7 +156,8 @@ handleOnChangeInput = () =>{
                      
                   </div>
                   <div style={{display:'flex',justifyContent:'center'}}>
-                    <input className='register-page-box-input' 
+                    <input id='img'
+                    className='register-page-box-input' 
                     style={{border:'1px solid black'}}
                     onChange={this.handleOnChangeImageUrl} 
                     placeholder='Paste image link in here'/>

@@ -57,4 +57,10 @@
     padding: 10px !important;
     cursor: pointer;
     display: flex;
+    text-decoration: none;
+    color: black
+}
+
+.header-dropdown-profil-content-li:hover{
+    background: #f2f2f0;
 }
