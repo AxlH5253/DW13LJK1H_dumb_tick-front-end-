@@ -72,8 +72,6 @@ handleOnClickBtnRegister = () =>{
         img : this.state.imgUrl
       }
 
-      console.log(dataUser)
-
       axios.post('http://localhost:5000/api/v1/register',dataUser)
       .then(res=>{
         if(res.data[0]['token']){
@@ -82,7 +80,6 @@ handleOnClickBtnRegister = () =>{
         }else if(res.data[0].message){
           this.setState({errorMessage: res.data[0].message})
         }else{
-          console.log(res.data)
           this.setState({errorMessage:'Cannot connect to server'})
         }
       })
