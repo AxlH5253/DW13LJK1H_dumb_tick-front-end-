@@ -104,7 +104,7 @@ class MenuProfil extends Component{
           axios.post('http://localhost:5000/api/v1/profile')
           .then(res => {
               this.setState({ name : res.data[0].username.charAt(0).toUpperCase()+ res.data[0].username.slice(1), img:res.data[0].img});
-            })
+          })
       }
   }
 
@@ -125,8 +125,8 @@ class MenuProfil extends Component{
           </div>
           
           <div className='header-dropdown-profil-content-ul'>
-            <div className='header-dropdown-profil-content-li'><ConfirmationNumberIcon style={{marginRight:'20px'}}/>My Ticket</div>
-            <div className='header-dropdown-profil-content-li'><PaymentIcon style={{marginRight:'20px'}}/> Payment</div>
+            <Link to='/myticket' className='header-dropdown-profil-content-li'><ConfirmationNumberIcon style={{marginRight:'20px'}}/>My Ticket</Link>
+            <Link to='/payment' className='header-dropdown-profil-content-li'><PaymentIcon style={{marginRight:'20px'}}/> Payment</Link>
             <Link to='/addevent' className='header-dropdown-profil-content-li'><AddCircleIcon style={{marginRight:'20px'}}/> Add Event</Link>
           </div>
 

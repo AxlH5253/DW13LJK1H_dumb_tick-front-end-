@@ -35,7 +35,10 @@ class DetailEvent extends Component{
         }
     }
 
-    handleBuyTicket = () =>{
+    handleBuyTicket = (price) =>{
+        if(this.totalPrice==0){
+            this.setState({totalPrice:price})
+        }
         const dataOrder ={
             eventId : this.props.match.params.id,
             quantity: this.state.countTicket,
@@ -45,7 +48,7 @@ class DetailEvent extends Component{
             axios.post('http://localhost:5000/api/v1/order',dataOrder)
             .then(res=>{
               if(res.data[0]['id']){
-                window.location = '/myticket';
+                window.location = '/payment';
               }else{
                 console.log(res.data)
               }
@@ -107,7 +110,7 @@ class DetailEvent extends Component{
                                          +
                                         </button>
                                        
-                                        <button className='buy-ticket-btn' onClick={this.handleBuyTicket}>Buy</button>
+                                        <button className='buy-ticket-btn' onClick={()=>this.handleBuyTicket(item.price)}>Buy</button>
                                     </div>
                                 </div>
                             </div>

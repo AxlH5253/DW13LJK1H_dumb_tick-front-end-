@@ -1,0 +1,15 @@
+.payment-confirm-btn{
+    width: 100%;
+    height: 30%;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    color: white;
+    background: #041426;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.payment-confirm-btn:hover{
+    background: #241552;
+}
