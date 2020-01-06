@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {getEvenUpComing} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
 import './UpCommingEvent.css';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 class UpCommingEvent extends Component{
     constructor(props) {
@@ -45,13 +46,21 @@ class UpCommingEvent extends Component{
               {data.slice(0,Math.ceil(data.length/3)).map((item,index)=>
               <div key={index} className='event-body'>
                    {data.slice(index*3,(index+1)*3).map((item)=>
-                 <div key={item.id} className="event-body-content" onClick={()=>window.location=`/detailEvent/${item.id}`}>
-                      <img className='event-body-content-img' src={item.img}></img>
-                      <h4>{item.title}</h4>
-                      <div className='event-body-content-description'>
-                        {item.description.substring(0,100)+' . . .'}
-                      </div>
-                  </div>
+                <div key={item.id} className="event-body-content" onClick={()=>window.location=`/detailEvent/${item.id}`}>
+                <img className="event-body-content-img" src={item.img}></img>
+                <div style={{display:'flex',width:'80%',alignItems:'center',justifyContent:'space-between',marginBottom:'0px',paddingTop:'5px'}}>
+                  <div>{new Intl.DateTimeFormat('en-GB', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: '2-digit' 
+                      }).format(new Date(item.startAt))} at {item.startAt.substring(11,16)}</div>
+                  <div><FavoriteIcon/></div>
+                </div>
+                <h4>{item.title}</h4>
+                <div className="event-body-content-description">
+                  {item.description.substring(0,50)+' . . .'}
+                </div>
+            </div>
                   )}
                 </div>
                   )}

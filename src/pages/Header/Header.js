@@ -117,11 +117,11 @@ class MenuProfil extends Component{
       <>
       <div className="header-dropdown-profil-content">
           <div className='header-dropdown-profil-content-ul'>
-            <div className='header-dropdown-profil-content-li'>
+            <Link to='/profile' className='header-dropdown-profil-content-li'>
               <Avatar style={{marginRight:'20px'}} alt="Remy Sharp" 
               src={this.state.img}/> 
               {this.state.name}
-            </div>
+            </Link>
           </div>
           
           <div className='header-dropdown-profil-content-ul'>

@@ -2,8 +2,6 @@ import React,{Component} from 'react';
 import './Payment.css';
 import axios from 'axios';
 
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-
 class Payment extends Component{
     constructor(props){
         super(props);
@@ -11,7 +9,7 @@ class Payment extends Component{
             imgUrl:'',
             showImg:'none',
             inputBorder:'1px solid black',
-            orderData:[]
+            orderData:[],
         }
     }
 
@@ -22,9 +20,12 @@ class Payment extends Component{
           let token = localStorage.getItem('token')
           axios.defaults.headers['Authorization'] = 'Bearer ' + token
           axios.post('http://localhost:5000/api/v1/orders')
-          .then(res => {
-              this.setState({ orderData : res.data})
-          })
+          .then(res => {   
+              this.setState({orderData:res.data})
+              console.log("tes")
+        }).catch(err=>{
+            console.log(this.state.orderData)
+        })
         }
     }
 
@@ -38,7 +39,7 @@ class Payment extends Component{
     }
 
     handleBtnConfirm = (id) =>{
-        if(document.getElementById('imgUrl').value==''){
+        if(this.state.imgUrl===''){
             this.setState({inputBorder:'1px solid red'})
         }else{
             if(!localStorage.getItem('token')){
@@ -83,13 +84,13 @@ class Payment extends Component{
                         <div style={{height:'80%',width:'100%',display:'flex'}}>
                             <div style={{height:'100%',width:'70%',paddingLeft:'15px'}}>
                                 <h1>{item.event.title}</h1>
-                                <p> 
+                                <p> Time & Date :
                                     &nbsp;{new Intl.DateTimeFormat('en-GB', { 
                                             year: 'numeric', 
                                             month: 'long', 
                                             day: '2-digit' 
                                     }).format(new Date(item.event.startAt))} at {item.event.startAt.substring(11,16)}</p>
-                                <div style={{display:'flex',alignItems:'center'}}><LocationOnIcon/>&nbsp;{item.event.address}</div>
+                                <div style={{display:'flex',alignItems:'center'}}>Location : {item.event.address}</div>
                             </div>
                             <div style={{height:'100%',width:'30%',display:'flex',justifyContent:'cener',alignItems:'center'}}>
                                 <img style={{width:'80%',height:'70%'}} src='https://upload.wikimedia.org/wikipedia/commons/5/5b/Qrcode_wikipedia.jpg'/>
@@ -107,8 +108,10 @@ class Payment extends Component{
                             <p>Total price ({item.quantity} item)</p>
                             <p>Rp.{(item.totalPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
                         </div>
+                        <p style={{paddingLeft:'20px'}}>Status : {item.status}</p>
                         <div style={{marginTop:'20px',width:'100%',height:'50%',display:'flex',justifyContent:'center'}}>
-                            <div style={{width:'80%',height:'100%'}}>
+        
+                            <div style={{width:'80%',height:'80%',display:item.btn}}>
                                 <div style={{display:this.state.showImg,border:'1px solid black',marginLeft:'30px',width:'25%',height:'70%'}}>
                                     <img style={{width:'100%',height:'100%'}} src={this.state.imgUrl}/>
                                 </div>
@@ -116,11 +119,12 @@ class Payment extends Component{
                                     style={{marginLeft:'20px',marginTop:'10px',outline:'none',border:this.state.inputBorder}}
                                 />
                             </div>
-                            <div style={{width:'25%',display:'flex',justifyContent:'flex-end',alignItems:'center'}}>
+                            <div style={{width:'25%',display:item.btn,justifyContent:'flex-end',alignItems:'center'}}>
                                 <button onClick={() =>this.handleBtnConfirm(item.id)} className='payment-confirm-btn'>
                                 Confirm
-                                </button>
+                            </button>
                             </div>
+
                         </div>
                     </div>
                     </div>

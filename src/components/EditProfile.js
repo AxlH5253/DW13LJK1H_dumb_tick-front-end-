@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import './component.css'
 
-class Register extends Component{
+class EditProfile extends Component{
  constructor(props){
    super(props);
    this.state={
@@ -14,13 +14,21 @@ class Register extends Component{
     borderPassword: '1px solid black',
     borderEmail: '1px solid black',
     borderPhone: '1px solid black',
-    errorMessage: ''
+    errorMessage: '',
+    userData:[]
    }
  }
 
  componentDidMount() {
-  if(localStorage.getItem('token')){
+  if(!localStorage.getItem('token')){
    window.location = '/';
+  }else{
+    let token = localStorage.getItem('token')
+    axios.defaults.headers['Authorization'] = 'Bearer ' + token
+    axios.post('http://localhost:5000/api/v1/profile')
+    .then(res => {
+        this.setState({ userData : res.data})
+    })
   }
 }
 
@@ -99,12 +107,13 @@ handleOnChangeInput = () =>{
   return (
     <div>
       <div className='register'>
-          <h1>Create new account</h1>
+          <h1>Edit Profile</h1>
           <h3 style={{color:'red',position:'absolute',top:'13ex',left:'13ex'}}>{this.state.errorMessage}</h3>
-          <div className='register-page-parrent'>
+          {this.state.userData.map((item,index)=>
+          <div key={index} className='register-page-parrent'>
               <div className='register-page-child-st'>
                   <div className='register-page-box'>
-                    <input id='username' style={{border:this.state.borderUsername}}
+                    <input value={item.username} id='username' style={{border:this.state.borderUsername}}
                      className='register-page-box-input'
                      onChange={this.handleOnChangeInput}
                      placeholder='Username' />
@@ -112,14 +121,14 @@ handleOnChangeInput = () =>{
                   
                   <div className='register-page-box'>
                     <div>
-                        <input id='email' className='register-page-box-input' 
+                        <input id='email' value={item.email} className='register-page-box-input' 
                         style={{border:this.state.borderEmail}}
                         onChange={this.handleOnChangeInput}
                         type='email' 
                         placeholder='Email'/>
                     </div>
                     <div>
-                        <input id='phone' className='register-page-box-input' 
+                        <input id='phone' value={item.phonrNumber} className='register-page-box-input' 
                         style={{border:this.state.borderPhone}}
                         onChange={this.handleOnChangeInput}
                         type='number' 
@@ -159,13 +168,15 @@ handleOnChangeInput = () =>{
                     className='register-page-box-input' 
                     style={{border:'1px solid black',marginBottom:'10px'}}
                     onChange={this.handleOnChangeImageUrl} 
+                    value={item.img}
                     placeholder='Paste image link in here'/>
                   </div>
                   <div className='register-page-botom-body-btn' style={{height:'150px',width:'100%'}}>
-                      <button style={{fontSize:'20px', width:'30%'}} className='register-page-botom-btn' onClick={this.handleOnClickBtnRegister}>Create Account</button>
+                      <button style={{fontSize:'20px', width:'30%'}} className='register-page-botom-btn' onClick={this.handleOnClickBtnRegister}>Save</button>
                   </div>
               </div>
           </div>
+          )}
       </div>
     </div>
   )
@@ -184,4 +195,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

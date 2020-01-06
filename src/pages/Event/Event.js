@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import { connect } from "react-redux";
 import {getEvenToday} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import './Event.css';
 
 class Event extends Component{
@@ -44,9 +45,17 @@ class Event extends Component{
                   {data.slice(index*3,(index+1)*3).map((item)=>
                   <div key={item.id} className="event-body-content" onClick={()=>window.location=`/detailEvent/${item.id}`}>
                       <img className="event-body-content-img" src={item.img}></img>
+                      <div style={{display:'flex',width:'80%',alignItems:'center',justifyContent:'space-between',marginBottom:'0px',paddingTop:'5px'}}>
+                        <div>{new Intl.DateTimeFormat('en-GB', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: '2-digit' 
+                            }).format(new Date(item.startAt))} at {item.startAt.substring(11,16)}</div>
+                        <div><FavoriteIcon/></div>
+                      </div>
                       <h4>{item.title}</h4>
                       <div className="event-body-content-description">
-                        {item.description.substring(0,100)+' . . .'}
+                        {item.description.substring(0,50)+' . . .'}
                       </div>
                   </div>
                    )}

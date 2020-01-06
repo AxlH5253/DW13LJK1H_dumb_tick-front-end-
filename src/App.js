@@ -17,6 +17,8 @@ import Register from './components/Register';
 import AddEvent from './pages/AddEvent/AddEvent';
 import MyTicket from './pages/MyTicket/MyTicket';
 import Payment from './pages/Payment/Payment';
+import Profile from './pages/Profile/Profile';
+import EditProfile from './components/EditProfile';
 
 class App extends Component{
   render(){
@@ -24,6 +26,14 @@ class App extends Component{
       <div>
       <Router>
         <Switch>
+          <Route path="/editprofile">
+            <Header/>
+            <EditProfile/>
+          </Route>
+          <Route path="/profile">
+            <Header/>
+            <Profile/>
+          </Route>
           <Route path="/payment">
             <Header/>
             <Payment/>
