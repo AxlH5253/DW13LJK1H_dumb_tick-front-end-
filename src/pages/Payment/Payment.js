@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import './Payment.css';
 import axios from 'axios';
+import {Redirect} from "react-router-dom";
 
 class Payment extends Component{
     constructor(props){
@@ -10,22 +11,21 @@ class Payment extends Component{
             showImg:'none',
             inputBorder:'1px solid black',
             orderData:[],
+            redirect:false
         }
     }
 
     componentDidMount() {
         if(!localStorage.getItem('token')){
-         window.location = '/';
+          this.setState({redirect:true})
         }else{
           let token = localStorage.getItem('token')
           axios.defaults.headers['Authorization'] = 'Bearer ' + token
-          axios.post('http://localhost:5000/api/v1/orders')
+          axios.post('https://dumb-tick-app.herokuapp.com/api/v1/orders')
           .then(res => {   
               this.setState({orderData:res.data})
-              console.log("tes")
-        }).catch(err=>{
-            console.log(this.state.orderData)
         })
+
         }
     }
 
@@ -43,11 +43,11 @@ class Payment extends Component{
             this.setState({inputBorder:'1px solid red'})
         }else{
             if(!localStorage.getItem('token')){
-                window.location = '/';
+                this.setState({redirect:true})
             }else{
                 let token = localStorage.getItem('token')
                 axios.defaults.headers['Authorization'] = 'Bearer ' + token
-                axios.put('http://localhost:5000/api/v1/order',{id:id})
+                axios.put('https://dumb-tick-app.herokuapp.com/api/v1/order',{id:id})
                 .then(res => {
                     window.location = '/payment';
                 })
@@ -56,6 +56,17 @@ class Payment extends Component{
     }
 
     render(){
+
+        if(this.state.redirect){
+            this.setState({redirect:false}) 
+            return(
+              <>
+               <Redirect  to={{pathname: `/`}}/> 
+              </>
+            )
+
+        }
+
         if(this.state.orderData<=0){
             return(
                 <div style={{width:'91%',height:'700px',padding:'60px'}}>
@@ -65,6 +76,7 @@ class Payment extends Component{
                 </div>
             )
         }
+
         return(
             <div style={{width:'91%',height:'700px',padding:'60px'}}>
               <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
@@ -93,7 +105,7 @@ class Payment extends Component{
                                 <div style={{display:'flex',alignItems:'center'}}>Location : {item.event.address}</div>
                             </div>
                             <div style={{height:'100%',width:'30%',display:'flex',justifyContent:'cener',alignItems:'center'}}>
-                                <img style={{width:'80%',height:'70%'}} src='https://upload.wikimedia.org/wikipedia/commons/5/5b/Qrcode_wikipedia.jpg'/>
+                                <img style={{width:'80%',height:'70%'}} src='https://upload.wikimedia.org/wikipedia/commons/5/5b/Qrcode_wikipedia.jpg' alt="Remy Sharp" />
                             </div>
                         </div>
                         
@@ -113,7 +125,7 @@ class Payment extends Component{
         
                             <div style={{width:'80%',height:'80%',display:item.btn}}>
                                 <div style={{display:this.state.showImg,border:'1px solid black',marginLeft:'30px',width:'25%',height:'70%'}}>
-                                    <img style={{width:'100%',height:'100%'}} src={this.state.imgUrl}/>
+                                    <img style={{width:'100%',height:'100%'}} src={this.state.imgUrl} alt="Remy Sharp" />
                                 </div>
                                 <input id='imgUrl' onChange={this.handleChangeImgUrl}
                                     style={{marginLeft:'20px',marginTop:'10px',outline:'none',border:this.state.inputBorder}}

@@ -1,22 +1,24 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import {Redirect} from "react-router-dom";
 
 class MyTicket extends Component{
     constructor(props){
         super(props);
         this.state = {
-            orderData:[]
+            orderData:[],
+            redirect:false
         }
     }
 
     componentDidMount() {
         if(!localStorage.getItem('token')){
-         window.location = '/';
+         this.setState({redirect:true})
         }else{
           let token = localStorage.getItem('token')
           axios.defaults.headers['Authorization'] = 'Bearer ' + token
-          axios.post('http://localhost:5000/api/v1/ticket')
+          axios.post('https://dumb-tick-app.herokuapp.com/api/v1/ticket')
           .then(res => {
               this.setState({ orderData : res.data})
           })
@@ -24,7 +26,18 @@ class MyTicket extends Component{
     }
 
     render(){
-        if(this.state.orderData<=0){
+
+        if(this.state.redirect){
+            this.setState({redirect:false}) 
+            return(
+              <>
+               <Redirect  to={{pathname: `/`}}/> 
+              </>
+            )
+
+          }
+
+          if(this.state.orderData<=0){
             return(
                 <div style={{width:'91%',height:'100px',padding:'60px'}}>
                     <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
@@ -33,6 +46,7 @@ class MyTicket extends Component{
                 </div>
             )
         }
+
         return(
             <div style={{width:'91%',height:'700px',padding:'60px'}}>
             <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
@@ -61,7 +75,7 @@ class MyTicket extends Component{
                               <div style={{display:'flex',alignItems:'center'}}><LocationOnIcon/>&nbsp;{item.event.address}</div>
                           </div>
                           <div style={{height:'100%',width:'30%',display:'flex',justifyContent:'cener',alignItems:'center'}}>
-                              <img style={{width:'80%',height:'70%'}} src='https://upload.wikimedia.org/wikipedia/commons/5/5b/Qrcode_wikipedia.jpg'/>
+                              <img style={{width:'80%',height:'70%'}} src='https://upload.wikimedia.org/wikipedia/commons/5/5b/Qrcode_wikipedia.jpg' alt="Remy Sharp"/>
                           </div>
                       </div>
                       

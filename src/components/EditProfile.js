@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {hideModal} from '../_actions/home';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {Redirect} from "react-router-dom";
 import './component.css'
 
 class EditProfile extends Component{
@@ -15,29 +16,26 @@ class EditProfile extends Component{
     borderEmail: '1px solid black',
     borderPhone: '1px solid black',
     errorMessage: '',
-    userData:[]
+    userData:[],
+    redirect: false
    }
  }
 
  componentDidMount() {
   if(!localStorage.getItem('token')){
-   window.location = '/';
+   this.setState({redirect:true})
   }else{
     let token = localStorage.getItem('token')
     axios.defaults.headers['Authorization'] = 'Bearer ' + token
     axios.post('https://dumb-tick-app.herokuapp.com/api/v1/profile')
     .then(res => {
         this.setState({ userData : res.data})
-        if(this.state.imgUrl == ''){
+        if(this.state.imgUrl === ''){
           this.setState({imgUrl:this.state.userData[0].img})
         }
     })
   }
 }
-
-// componentWillUpdate(props){
-//   this.setState({imgUrl:this.state.userData[0].img})
-// }
 
 handleShowPassword = ()=>{
   if(this.state.hidepass === 'password'){
@@ -64,25 +62,25 @@ handleOnClickBtnRegister = () =>{
       let phoneNumber = ''
       let password = ''
 
-      if(document.getElementById('cpass').value==''){
+      if(document.getElementById('cpass').value === ''){
         password = this.state.userData[0].password
       }else{
         password = document.getElementById('cpass').value
       }
 
-      if(document.getElementById('username').value==''){
+      if(document.getElementById('username').value === ''){
         username = this.state.userData[0].username
       }else{
         username = document.getElementById('username').value
       }
 
-      if(document.getElementById('email').value==''){
+      if(document.getElementById('email').value === ''){
         email = this.state.userData[0].email
       }else{
         email = document.getElementById('email').value
       }
 
-      if(document.getElementById('phone').value==''){
+      if(document.getElementById('phone').value === ''){
         phoneNumber = this.state.userData[0].phonrNumber
       }else{
         phoneNumber = document.getElementById('phone').value
@@ -98,7 +96,7 @@ handleOnClickBtnRegister = () =>{
       }
       axios.put('https://dumb-tick-app.herokuapp.com/api/v1/updateuser',dataUser)
       .then(res=>{
-        window.location = '/profile'
+        this.setState({redirect:true})
       })
     }
 }
@@ -112,6 +110,16 @@ handleOnChangeInput = () =>{
 }
   
  render(){
+
+  if(this.state.redirect){
+    this.setState({redirect:false}) 
+    return(
+      <>
+       <Redirect  to='/profile'/> 
+      </>
+    )
+
+  }
 
   return (
     <div>
@@ -168,7 +176,7 @@ handleOnChangeInput = () =>{
               <div className='register-page-botom-body'>
                   <div className='register-page-botom-body-head' style={{height:'165px',paddingBottom:'30px'}}>
                       <div className='register-page-botom-body-img-body'>
-                          <img className='register-page-botom-body-img' src={this.state.imgUrl}/>
+                          <img className='register-page-botom-body-img' src={this.state.imgUrl} alt="Remy Sharp"/>
                       </div>
                      
                   </div>

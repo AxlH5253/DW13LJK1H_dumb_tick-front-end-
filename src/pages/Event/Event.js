@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from "react-redux";
+import {Link} from "react-router-dom";
 import {getEvenToday} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -28,7 +29,7 @@ class Event extends Component{
     }
 
     render(){
-         const { data, isLoading, isPost, error } = this.props.getEvent;
+         const { data, isLoading, error } = this.props.getEvent;
 
         if (isLoading) {
             return (
@@ -51,7 +52,7 @@ class Event extends Component{
             for (let i = 0;i<=data.length;i++){
                 favColorTemp.push('grey')
             }
-            this.state.favColor = favColorTemp  
+            this.setState({favColor:favColorTemp})
           }
 
         return(
@@ -63,7 +64,9 @@ class Event extends Component{
               <div key={index} className='event-body'>
                   {data.slice(index*3,(index+1)*3).map((item,index)=>
                   <div key={item.id} style={{width:'300px'}} className="event-body-content">
-                      <img className="event-body-content-img" src={item.img} onClick={()=>window.location=`/detailEvent/${item.id}`}></img>
+                      <Link style={{textDecoration:'none',color:'black'}} to={{pathname: `/detailEvent/${item.id}`}} >
+                        <img className="event-body-content-img" src={item.img} alt="Remy Sharp"></img>
+                      </Link>
                       <div style={{display:'flex',width:'80%',alignItems:'center',justifyContent:'space-between',marginBottom:'0px',paddingTop:'5px'}}>
                           <div>{new Intl.DateTimeFormat('en-GB', { 
                                   year: 'numeric', 
@@ -77,11 +80,11 @@ class Event extends Component{
                           </div> 
                       </div>
                       
-                      <h4 className='event-content-title'
-                         onClick={()=>window.location=`/detailEvent/${item.id}`}
-                      >
-                        {item.title}
-                      </h4>
+                      <Link style={{textDecoration:'none',color:'black'}} to={{pathname: `/detailEvent/${item.id}`}}>
+                        <h4 className='event-content-title'>
+                          {item.title}
+                        </h4>
+                      </Link>
 
                       <div className="event-body-content-description">
                         {item.description.substring(0,65)+' . . .'}

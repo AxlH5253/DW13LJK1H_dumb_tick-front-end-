@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {getCategories} from '../../_actions/home';
+import {Redirect} from "react-router-dom";
 import './AddEvent.css';
 
 class Register extends Component{
@@ -19,20 +20,21 @@ class Register extends Component{
     description: '1px solid black',
     errorMessage: '',
     mapUrlLink:'',
-    imgUrlLink:''
+    imgUrlLink:'',
+    redirect:false
    }
  }
 
  componentDidMount() {
   if(!localStorage.getItem('token')){
-   window.location = '/';
+   this.setState({redirect:true})
   }
   this.props.getCategories();
 }
 
 handleAddEventBtn(){
   if((document.getElementById('title').value === '')||
-  (document.getElementById('category').value == 0)||
+  (document.getElementById('category').value === 0)||
   (document.getElementById('price').value === '')||
   (document.getElementById('address').value === '')||
   (document.getElementById('startAt').value === '')||
@@ -46,7 +48,7 @@ handleAddEventBtn(){
   if(document.getElementById('title').value === ''){
     this.setState({title:'1px solid red'})
   }
-  if(document.getElementById('category').value == 0){
+  if(document.getElementById('category').value === 0){
     this.setState({category:'1px solid red'})
   }
   if(document.getElementById('address').value === ''){
@@ -87,7 +89,7 @@ handleAddEventBtn(){
   axios.post('https://dumb-tick-app.herokuapp.com/api/v1/event',dataEvent)
   .then(res=>{
     if(res.data[0].id){
-      window.location = '/'
+      this.setState({redirect:true})
     }else{
       this.setState({errorMessage:'Cannot connect to server'})
       window.scrollTo(1, 1);
@@ -122,6 +124,11 @@ handleOnChangeUrlImg = (event) =>{
   
  render(){
   const {data} = this.props.home;
+
+  if(this.state.redirect){
+    this.setState({redirect:false})
+    return <Redirect  to={{pathname: `/`}}/>
+  }
 
   return (
     <div>
@@ -199,7 +206,7 @@ handleOnChangeUrlImg = (event) =>{
           <div className='register-page-botom-body'>
                   <div className='register-page-botom-body-head'>
                       <div style={{width:'80%',height:'100%',border:'1px solid black'}}>
-                          <img style={{width:'100%', height:'100%'}} src={this.state.imgUrlLink}></img>
+                          <img style={{width:'100%', height:'100%'}} src={this.state.imgUrlLink} alt="Remy Sharp"></img>
                       </div>
                      
                   </div>
@@ -215,7 +222,7 @@ handleOnChangeUrlImg = (event) =>{
                 <div className='register-page-botom-body'>
                   <div className='register-page-botom-body-head'>
                       <div style={{width:'80%',height:'100%',border:'1px solid black'}}>
-                        <iframe src={this.state.mapUrlLink} style={{width:'100%',height:'100%'}}></iframe>
+                        <iframe title='location' src={this.state.mapUrlLink} style={{width:'100%',height:'100%'}}></iframe>
                       </div>
                      
                   </div>

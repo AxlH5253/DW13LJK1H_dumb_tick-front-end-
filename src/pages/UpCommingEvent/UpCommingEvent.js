@@ -52,8 +52,8 @@ class UpCommingEvent extends Component{
             for (let i = 0;i<=data.length;i++){
                 favColorTemp.push('grey')
             }
-            this.state.favColor = favColorTemp  
-          }
+            this.setState({favColor:favColorTemp})
+        }
 
         return(
             <>         
@@ -66,7 +66,11 @@ class UpCommingEvent extends Component{
               <div key={index} className='event-body'>
                    {data.slice(index*3,(index+1)*3).map((item,index)=>
                 <div key={item.id} className="event-body-content">
-                <img className="event-body-content-img" src={item.img}></img>
+
+                <Link style={{textDecoration:'none',color:'black'}} to={{pathname: `/detailEvent/${item.id}`}} >
+                  <img className="event-body-content-img" src={item.img} alt="Remy Sharp"></img>
+                </Link>
+
                 <div style={{display:'flex',width:'80%',alignItems:'center',justifyContent:'space-between',marginBottom:'0px',paddingTop:'5px'}}>
                   <div>{new Intl.DateTimeFormat('en-GB', { 
                           year: 'numeric', 
@@ -78,11 +82,11 @@ class UpCommingEvent extends Component{
                                   onClick={()=>this.hendleOnClickFavorite(index)}/>
                   </div>
                 </div>
-                <h4 className='event-content-title'
-                  onClick={()=>window.location=`/detailEvent/${item.id}`}
-                >
-                   {item.title}
-                </h4>
+                <Link style={{textDecoration:'none',color:'black'}} to={{pathname: `/detailEvent/${item.id}`}} >
+                  <h4 className='event-content-title'>
+                    {item.title}
+                  </h4>
+                </Link>
                 <div className="event-body-content-description">
                   {item.description.substring(0,50)+' . . .'}
                 </div>

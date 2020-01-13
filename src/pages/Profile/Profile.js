@@ -3,7 +3,7 @@ import axios from 'axios';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
 import PersonIcon from '@material-ui/icons/Person';
-import {Link} from "react-router-dom";
+import {Link,Redirect} from "react-router-dom";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {getEvenToday} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
@@ -13,13 +13,14 @@ class Profile extends Component{
     constructor(props){
         super(props);
         this.state = {
-            userData:[]
+            userData:[],
+            redirect:false
         }
     }
 
     componentDidMount() {
         if(!localStorage.getItem('token')){
-         window.location = '/';
+          this.setState({redirect:true})
         }else{
           this.props.getEvenToday();
           let token = localStorage.getItem('token')
@@ -31,7 +32,7 @@ class Profile extends Component{
         }
     }
     render(){
-        const { data, isLoading, isPost, error } = this.props.getEvent;
+        const { data, isLoading, error } = this.props.getEvent;
 
         if (isLoading) {
             return (
@@ -49,6 +50,16 @@ class Profile extends Component{
             );
         }
 
+        if(this.state.redirect){
+            this.setState({redirect:false}) 
+            return(
+              <>
+               <Redirect  to={{pathname: `/`}}/> 
+              </>
+            )
+
+          }
+
         return(
             <div style={{width:'91%',height:'800px',padding:'60px',display:'flex',alignItems:'center',flexDirection:'column'}}>
                 <div style={{width:'80%',height:'80%'}}>
@@ -60,7 +71,7 @@ class Profile extends Component{
                                 <div style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                                     <h2 style={{display:'flex',alignItems:'center'}}><PersonIcon/>&nbsp;&nbsp;{item.username}</h2>
                                     <Link to='/editprofile'>
-                                    <button   style={{border:'none',outline:'none',
+                                    <button   style={{border:'none',outline:'none', cursor:'pointer',
                                             height:'40px',width:'100px',borderRadius:'5px',background:'#041426',color:'white'}}>
                                             Edit Profile
                                     </button>
@@ -72,7 +83,7 @@ class Profile extends Component{
                             <div style={{width:'40%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                                 <div style={{width:'200px',borderRadius:'100%',height:'200px',border:'1px solid black'}}>
                                     <img src={item.img}
-                                         style={{height:'100%',width:'100%',borderRadius:'100%'}}/>
+                                         style={{height:'100%',width:'100%',borderRadius:'100%'}} alt="Remy Sharp"/>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +96,7 @@ class Profile extends Component{
                     <div key={index} className='event-body' style={{background:'white'}}>
                         {data.slice(index*3,(index+1)*3).map((item)=>
                         <div key={item.id} className="event-body-content" onClick={()=>window.location=`/detailEvent/${item.id}`}>
-                            <img className="event-body-content-img" src={item.img}></img>
+                            <img className="event-body-content-img" src={item.img} alt="Remy Sharp"></img>
                             <div style={{display:'flex',width:'80%',alignItems:'center',justifyContent:'space-between',marginBottom:'0px',paddingTop:'5px'}}>
                                 <div>{new Intl.DateTimeFormat('en-GB', { 
                                         year: 'numeric', 

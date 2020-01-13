@@ -1,4 +1,4 @@
-import {GET_CATEGORIES, GET_EVENT_BY_TITLE,GET_EVENT_UP_COMMING,GET_EVENT_TODAY} from '../config/constant';
+import {GET_CATEGORIES} from '../config/constant';
 
 const initialState = {
     data:[],

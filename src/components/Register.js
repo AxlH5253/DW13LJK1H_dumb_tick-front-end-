@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {hideModal} from '../_actions/home';
 import {connect} from 'react-redux';
+import {Redirect} from "react-router-dom";
 import axios from 'axios';
 import './component.css'
 
@@ -14,13 +15,14 @@ class Register extends Component{
     borderPassword: '1px solid black',
     borderEmail: '1px solid black',
     borderPhone: '1px solid black',
-    errorMessage: ''
+    errorMessage: '',
+    redirect: false
    }
  }
 
  componentDidMount() {
   if(localStorage.getItem('token')){
-   window.location = '/';
+   this.setState({redirect:true})
   }
 }
 
@@ -76,7 +78,7 @@ handleOnClickBtnRegister = () =>{
       .then(res=>{
         if(res.data[0]['token']){
           localStorage.setItem('token', res.data[0]['token']);
-          window.location = '/';
+          this.setState({redirect:true})
         }else if(res.data[0].message){
           this.setState({errorMessage: res.data[0].message})
         }else{
@@ -95,6 +97,11 @@ handleOnChangeInput = () =>{
 }
   
  render(){
+
+  if(this.state.redirect){
+    this.setState({redirect:false})
+    return <Redirect  to={{pathname: `/`}}/>
+  }
 
   return (
     <div>
@@ -150,7 +157,7 @@ handleOnChangeInput = () =>{
               <div className='register-page-botom-body'>
                   <div className='register-page-botom-body-head' style={{height:'165px',paddingBottom:'30px'}}>
                       <div className='register-page-botom-body-img-body'>
-                          <img className='register-page-botom-body-img' src={this.state.imgUrl}/>
+                          <img className='register-page-botom-body-img' src={this.state.imgUrl} alt="Remy Sharp"/>
                       </div>
                      
                   </div>

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import { connect } from "react-redux";
 import {getCategories} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
@@ -10,7 +10,8 @@ class Header extends Component{
     constructor(props) {
         super(props);
         this.state = {
-          queryValue: ''
+          queryValue: '',
+          redirect: false
         }
     }
 
@@ -24,7 +25,7 @@ class Header extends Component{
 
     handleKeyUp = event =>{
       if (event.keyCode === 13){
-        window.location = this.state.queryValue
+        this.setState({redirect:true})
       }
     }
     render(){
@@ -45,6 +46,16 @@ class Header extends Component{
               </div>
             );
           }
+
+          if(this.state.redirect){
+            this.setState({redirect:false}) 
+            return(
+              <>
+               <Redirect  to={{pathname: `${this.state.queryValue}`}}/> 
+              </>
+            )
+
+          }
         return(
             <>
             <div className='category'>
@@ -53,17 +64,24 @@ class Header extends Component{
                 <input onChange={this.handleOnChage} className='category-body-top-search-input' placeholder='Search Events'
                       onKeyUp={this.handleKeyUp}>
                 </input> 
-                <button className='category-body-top-search-button'  onClick ={() =>{window.location = this.state.queryValue}}>
+                
+                <Link className='category-body-top-search-button' 
+                     style={{textDecoration:'none',color:'black'}} 
+                     to={{pathname: `${this.state.queryValue}`}}>    
                       <SearchIcon/>
-                </button>
+                </Link>
+      
               </div>
             </div>
             <div className='category-body-bottom'>
               { data.map((item,index)=>
-             
-              <div key={index} className='category-body-bottom-content' onClick={()=>(window.location=`/detailCategory/${item.id}`)}>
-                {item.name}
-              </div>
+
+               <Link key={index} className='category-body-bottom-content' 
+                     style={{textDecoration:'none',color:'black'}} 
+                     to={{pathname: `/detailCategory/${item.id}`}}>    
+                  {item.name}
+               </Link>
+
               )}    
             </div>
             </div>

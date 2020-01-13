@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link,withRouter} from "react-router-dom";
+import {Redirect,withRouter} from "react-router-dom";
 import { connect } from "react-redux";
 import {getDetailEvt} from '../../_actions/home';
 import SkeletonLoader from "tiny-skeleton-loader-react";
@@ -19,6 +19,7 @@ class DetailEvent extends Component{
         this.state = {
             countTicket : 1,
             totalPrice :0,
+            redirect:false
         }
 
     }
@@ -36,7 +37,7 @@ class DetailEvent extends Component{
     }
 
     handleBuyTicket = (price) =>{
-        if(this.totalPrice==0){
+        if(this.totalPrice === 0){
             this.setState({totalPrice:price})
         }
         const dataOrder ={
@@ -45,10 +46,10 @@ class DetailEvent extends Component{
             totalPrice: this.state.totalPrice
         }
         if(localStorage.getItem('token')){
-            axios.post('http://localhost:5000/api/v1/order',dataOrder)
+            axios.post('https://dumb-tick-app.herokuapp.com/api/v1/order',dataOrder)
             .then(res=>{
               if(res.data[0]['id']){
-                window.location = '/payment';
+                this.setState({redirect:true})
               }else{
                 console.log(res.data)
               }
@@ -76,6 +77,11 @@ class DetailEvent extends Component{
               </div>
             );
           }
+
+          if(this.state.redirect){
+              this.setState({redirect:false})
+              return <Redirect  to={{pathname: `/payment`}}/>
+          }
          return(
                 <>
                 <div className='detail-event'>
@@ -83,7 +89,7 @@ class DetailEvent extends Component{
                     <div key={index}>
                         <div className='detail-event-body-top'>
                             <div className='detail-event-body-top-img'>
-                                <img className='detail-event-body-top-img-image' src={item.img}></img>
+                                <img className='detail-event-body-top-img-image' src={item.img} alt="Remy Sharp"></img>
                             </div>
                             <div className='detail-event-body-top-child-st'>
                                 <div className='detail-event-body-bottom-child-st-box'> 
@@ -172,7 +178,7 @@ class DetailEvent extends Component{
                                        <div style={{display:'flex', alignItems:'center'}}><LocationOnIcon/>&nbsp;<p>{item.address}</p></div>
                                     </div>
                                     <div style={{marginLeft:'40px',height:'250px'}}>
-                                        <iframe style={{width:'90%',height:'100%',border:'2px solid black'}} src={item.urlMaps}></iframe>
+                                        <iframe title='location' style={{width:'90%',height:'100%',border:'2px solid black'}} src={item.urlMaps}></iframe>
                                     </div>
                                 </div>
                             </div>
