@@ -9,7 +9,7 @@ class EditProfile extends Component{
    super(props);
    this.state={
     hidepass: 'password',
-    imgUrl: 'http://www.orientjphysicalsciences.org/images/user.jpg',
+    imgUrl: '',
     borderUsername: '1px solid black',
     borderPassword: '1px solid black',
     borderEmail: '1px solid black',
@@ -25,12 +25,19 @@ class EditProfile extends Component{
   }else{
     let token = localStorage.getItem('token')
     axios.defaults.headers['Authorization'] = 'Bearer ' + token
-    axios.post('http://localhost:5000/api/v1/profile')
+    axios.post('https://dumb-tick-app.herokuapp.com/api/v1/profile')
     .then(res => {
         this.setState({ userData : res.data})
+        if(this.state.imgUrl == ''){
+          this.setState({imgUrl:this.state.userData[0].img})
+        }
     })
   }
 }
+
+// componentWillUpdate(props){
+//   this.setState({imgUrl:this.state.userData[0].img})
+// }
 
 handleShowPassword = ()=>{
   if(this.state.hidepass === 'password'){
@@ -43,53 +50,55 @@ handleShowPassword = ()=>{
 handleOnChangeImageUrl = (event) =>{
   this.setState({imgUrl:event.target.value})
   if(event.target.value === ''){
-    this.setState({imgUrl:'http://www.orientjphysicalsciences.org/images/user.jpg'})
+    this.setState({imgUrl:this.state.userData[0].img})
   }
 }
 
 handleOnClickBtnRegister = () =>{
-  if((document.getElementById('username').value === '')||
-     (document.getElementById('pass').value === '')||
-     (document.getElementById('email').value === '')||
-     (document.getElementById('phone').value === '')){
-      
-      this.setState({errorMessage:'All data must be filled in'})
-      
-      if(document.getElementById('username').value === ''){
-        this.setState({borderUsername:'1px solid red'})
-      }
-      if(document.getElementById('pass').value === ''){
-        this.setState({borderPassword:'1px solid red'})
-      }
-      if(document.getElementById('email').value === ''){
-        this.setState({borderEmail:'1px solid red'})
-      }
-      if(document.getElementById('phone').value === ''){
-        this.setState({borderPhone:'1px solid red'})
-      }
-    }else if(document.getElementById('pass').value!== document.getElementById('cpass').value ){
-      this.setState({errorMessage:'The password confirmation must be the same as the password'})
+     if(document.getElementById('pass').value!== this.state.userData[0].password){
+      this.setState({errorMessage:'Old password wrong'})
       this.setState({borderPassword:'1px solid red'})
     }else{
-      const dataUser ={
-        name : document.getElementById('username').value,
-        username : document.getElementById('username').value,
-        password : document.getElementById('pass').value,
-        email : document.getElementById('email').value,
-        phoneNumber: document.getElementById('phone').value,
-        img : this.state.imgUrl
+      let username = ''
+      let email = ''
+      let phoneNumber = ''
+      let password = ''
+
+      if(document.getElementById('cpass').value==''){
+        password = this.state.userData[0].password
+      }else{
+        password = document.getElementById('cpass').value
       }
 
-      axios.post('http://localhost:5000/api/v1/register',dataUser)
+      if(document.getElementById('username').value==''){
+        username = this.state.userData[0].username
+      }else{
+        username = document.getElementById('username').value
+      }
+
+      if(document.getElementById('email').value==''){
+        email = this.state.userData[0].email
+      }else{
+        email = document.getElementById('email').value
+      }
+
+      if(document.getElementById('phone').value==''){
+        phoneNumber = this.state.userData[0].phonrNumber
+      }else{
+        phoneNumber = document.getElementById('phone').value
+      }
+
+      const dataUser ={
+        name : username,
+        username : username,
+        password : password,
+        email : email,
+        phoneNumber: phoneNumber,
+        img : this.state.imgUrl
+      }
+      axios.put('https://dumb-tick-app.herokuapp.com/api/v1/updateuser',dataUser)
       .then(res=>{
-        if(res.data[0]['token']){
-          localStorage.setItem('token', res.data[0]['token']);
-          window.location = '/';
-        }else if(res.data[0].message){
-          this.setState({errorMessage: res.data[0].message})
-        }else{
-          this.setState({errorMessage:'Cannot connect to server'})
-        }
+        window.location = '/profile'
       })
     }
 }
@@ -113,26 +122,26 @@ handleOnChangeInput = () =>{
           <div key={index} className='register-page-parrent'>
               <div className='register-page-child-st'>
                   <div className='register-page-box'>
-                    <input value={item.username} id='username' style={{border:this.state.borderUsername}}
+                    <input id='username' style={{border:this.state.borderUsername}}
                      className='register-page-box-input'
                      onChange={this.handleOnChangeInput}
-                     placeholder='Username' />
+                     placeholder={item.username} />
                   </div>
                   
                   <div className='register-page-box'>
                     <div>
-                        <input id='email' value={item.email} className='register-page-box-input' 
+                        <input id='email' className='register-page-box-input' 
                         style={{border:this.state.borderEmail}}
                         onChange={this.handleOnChangeInput}
                         type='email' 
-                        placeholder='Email'/>
+                        placeholder={item.email}/>
                     </div>
                     <div>
-                        <input id='phone' value={item.phonrNumber} className='register-page-box-input' 
+                        <input id='phone' className='register-page-box-input' 
                         style={{border:this.state.borderPhone}}
                         onChange={this.handleOnChangeInput}
                         type='number' 
-                        placeholder='Phone number'/>
+                        placeholder= {item.phonrNumber} />
                     </div>
                   </div>
 
@@ -145,14 +154,14 @@ handleOnChangeInput = () =>{
                         <input id='pass' style={{border:this.state.borderPassword}}
                         onChange={this.handleOnChangeInput} 
                         className='register-page-box-input' 
-                        type={this.state.hidepass} placeholder='Password' />
+                        type={this.state.hidepass} placeholder='Old password' />
                     </div>
                     <div>
                         <input id='cpass' className='register-page-box-input' 
                         type={this.state.hidepass} 
                         onChange={this.handleOnChangeInput}
                         style={{border:this.state.borderPassword}}
-                        placeholder='Confirm password'/>
+                        placeholder='New password'/>
                     </div>
                   </div>
               </div>
@@ -168,7 +177,6 @@ handleOnChangeInput = () =>{
                     className='register-page-box-input' 
                     style={{border:'1px solid black',marginBottom:'10px'}}
                     onChange={this.handleOnChangeImageUrl} 
-                    value={item.img}
                     placeholder='Paste image link in here'/>
                   </div>
                   <div className='register-page-botom-body-btn' style={{height:'150px',width:'100%'}}>

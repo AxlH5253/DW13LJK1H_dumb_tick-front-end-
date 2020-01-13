@@ -72,7 +72,7 @@ handleOnClickBtnRegister = () =>{
         img : this.state.imgUrl
       }
 
-      axios.post('http://localhost:5000/api/v1/register',dataUser)
+      axios.post('https://dumb-tick-app.herokuapp.com/api/v1/register',dataUser)
       .then(res=>{
         if(res.data[0]['token']){
           localStorage.setItem('token', res.data[0]['token']);

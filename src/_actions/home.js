@@ -19,7 +19,7 @@ export const getCategories = () =>{
         payload: axios(
             {
                 method:'GET',
-                url:'http://localhost:5000/api/v1/categories'
+                url:'https://dumb-tick-app.herokuapp.com/api/v1/categories'
         })
     };
 };
@@ -31,7 +31,7 @@ export const getEventByTitle = title =>{
         payload: axios(
             {
                 method:'GET',
-                url:`http://localhost:5000/api/v1/events?title=${title}`,
+                url:`https://dumb-tick-app.herokuapp.com/api/v1/events?title=${title}`,
         })
     };
 };
@@ -42,7 +42,7 @@ export const getEvenToday =() =>{
         payload: axios(
             {
                 method:'GET',
-                url:'http://localhost:5000/api/v1/events?start_time=2020-01-04',
+                url:'https://dumb-tick-app.herokuapp.com/api/v1/events?start_time=2020-01-12',
         })
     };
 };
@@ -53,7 +53,7 @@ export const getEvenUpComing =() =>{
         payload: axios(
             {
                 method:'GET',
-                url:'http://localhost:5000/api/v1/events?start_time_gte=2020-01-04',
+                url:'https://dumb-tick-app.herokuapp.com/api/v1/events?start_time_gte=2020-01-12',
         })
     };
 };
@@ -64,7 +64,7 @@ export const getEvenByCat = categoryId =>{
         payload: axios(
             {
                 method:'GET',
-                url:`http://localhost:5000/api/v1/category/${categoryId}/events`,
+                url:`https://dumb-tick-app.herokuapp.com/api/v1/category/${categoryId}/events`,
         })
     };
 };
@@ -75,7 +75,7 @@ export const getDetailEvt = evtId =>{
         payload: axios(
             {
                 method:'GET',
-                url:`http://localhost:5000/api/v1/event/${evtId}`,
+                url:`https://dumb-tick-app.herokuapp.com/api/v1/event/${evtId}`,
         })
     };
 };
@@ -87,7 +87,7 @@ export const login =  user => {
         payload: axios(
             {
                 method:'POST',
-                url:`http://localhost:5000/api/v1/login`,
+                url:`https://dumb-tick-app.herokuapp.com/api/v1/login`,
                 data: user
         })
     };

@@ -32,7 +32,7 @@ class Header extends Component{
           this.setState({showAvatar:'block',showBtnLogin:'none'})
           let token = localStorage.getItem('token')
           axios.defaults.headers['Authorization'] = 'Bearer ' + token
-          axios.post('http://localhost:5000/api/v1/profile')
+          axios.post('https://dumb-tick-app.herokuapp.com/api/v1/profile')
           .then(res => {
               this.setState({ name : res.data[0].username.charAt(0).toUpperCase()+ res.data[0].username.slice(1), img:res.data[0].img});
            })
@@ -101,7 +101,7 @@ class MenuProfil extends Component{
       if(localStorage.getItem('token')){
           let token = localStorage.getItem('token')
           axios.defaults.headers['Authorization'] = 'Bearer ' + token
-          axios.post('http://localhost:5000/api/v1/profile')
+          axios.post('https://dumb-tick-app.herokuapp.com/api/v1/profile')
           .then(res => {
               this.setState({ name : res.data[0].username.charAt(0).toUpperCase()+ res.data[0].username.slice(1), img:res.data[0].img});
           })

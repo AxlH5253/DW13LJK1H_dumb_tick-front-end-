@@ -84,7 +84,7 @@ handleAddEventBtn(){
     description : document.getElementById('description').value
   }
 
-  axios.post('http://localhost:5000/api/v1/event',dataEvent)
+  axios.post('https://dumb-tick-app.herokuapp.com/api/v1/event',dataEvent)
   .then(res=>{
     if(res.data[0].id){
       window.location = '/'

@@ -33,7 +33,7 @@ class Login extends Component{
       username: document.getElementById('username').value ,
       password: document.getElementById('password').value 
     }
-    axios.post('http://localhost:5000/api/v1/login',user)
+    axios.post('https://dumb-tick-app.herokuapp.com/api/v1/login',user)
     .then(res=>{
       if(res.data[0]['token']){
         localStorage.setItem('token', res.data[0]['token']);
